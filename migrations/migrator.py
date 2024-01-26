@@ -3,6 +3,7 @@ from sqlalchemy import text
 
 from app.models import (
     User,
+    JournalEntries,
 )
 from config import (
     Base,

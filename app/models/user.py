@@ -1,6 +1,7 @@
-# user table id name email password created_at updated_at
+"""User Model."""
 from datetime import datetime
-from sqlalchemy import Text, DateTime, String
+
+from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from config import DB_PREFIX, Base
