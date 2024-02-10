@@ -23,6 +23,17 @@ class JournalEntries(Base):
     _updated_at: Mapped[datetime] = mapped_column(
         "updated_at", DateTime, nullable=False, default=None)
 
+    def serialize(self):
+        """Serialize."""
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "title": self.title,
+            "content": self.content,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
     @property
     def user_id(self) -> int:
         """Get user_id."""

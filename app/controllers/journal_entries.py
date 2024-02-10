@@ -1,3 +1,4 @@
+"""Journal Entries."""
 from flask import jsonify, request
 
 from app.models import JournalEntries as JournalEntriesModel
@@ -28,12 +29,13 @@ class JournalEntries:
 
     def show(self, id):
         """Retorna una sola entrada de journal."""
-        entry = JournalEntriesModel.query.get(id)
+        entry = session.query(JournalEntriesModel).get(id)
         return jsonify(entry.serialize()), 200
 
-    def update(self, id, data):
+    def update(self, id):
         """Actualiza una sola entrada de journal."""
-        entry = JournalEntriesModel.query.get(id)
+        data = request.get_json()
+        entry = session.query(JournalEntriesModel).get(id)
         entry.title = data["title"]
         entry.content = data["content"]
         session.commit()
@@ -41,7 +43,7 @@ class JournalEntries:
 
     def delete(self, id):
         """Elimina una sola entrada de journal."""
-        entry = JournalEntriesModel.query.get(id)
+        entry = session.query(JournalEntriesModel).get(id)
         session.delete(entry)
         session.commit()
-        return jsonify({}), 204
+        return jsonify(entry.serialize()), 200
