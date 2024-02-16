@@ -25,7 +25,6 @@ class JournalEntries:
         )
         session.add(entry)
         session.commit()
-        session.close()
         return jsonify("anda"), 201
 
     def show(self, id):
@@ -40,7 +39,6 @@ class JournalEntries:
         entry.title = data["title"]
         entry.content = data["content"]
         session.commit()
-        session.close()
         return jsonify(entry.serialize()), 200
 
     def delete(self, id):
