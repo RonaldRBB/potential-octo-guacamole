@@ -2,7 +2,7 @@
 from datetime import datetime
 
 from sqlalchemy import DateTime, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from config import DB_PREFIX, Base
 
@@ -26,6 +26,19 @@ class User(Base):
         "created_at", DateTime, nullable=False, default=None)
     _updated_at: Mapped[datetime] = mapped_column(
         "updated_at", DateTime, nullable=False, default=None)
+    journal_entries = relationship("JournalEntries", back_populates="user")
+
+    def serialize(self):
+        """Serialize."""
+        return {
+            "id": self.id,
+            "username": self.username,
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "email": self.email,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
 
     @property
     def username(self) -> str:

@@ -4,6 +4,7 @@ from sqlalchemy import text
 from app.models import (
     User,
     JournalEntries,
+    Tag,
 )
 from config import (
     Base,

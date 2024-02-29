@@ -25,12 +25,15 @@ class JournalEntries:
         )
         session.add(entry)
         session.commit()
-        return jsonify("anda"), 201
+        session.refresh(entry)
+        return entry.serialize(), 201
 
     def show(self, id):
         """Retorna una sola entrada de journal."""
         entry = session.query(JournalEntriesModel).get(id)
-        return jsonify(entry.serialize()), 200
+        print('-'*100)
+        print('-'*100)
+        return entry.serialize(), 200
 
     def update(self, id):
         """Actualiza una sola entrada de journal."""
@@ -39,12 +42,12 @@ class JournalEntries:
         entry.title = data["title"]
         entry.content = data["content"]
         session.commit()
-        return jsonify(entry.serialize()), 200
+        return entry.serialize(), 200
 
     def delete(self, id):
         """Elimina una sola entrada de journal."""
         entry = session.query(JournalEntriesModel).get(id)
+        journal_info = entry.serialize()
         session.delete(entry)
         session.commit()
-        session.close()
-        return jsonify(entry.serialize()), 200
+        return journal_info, 200
