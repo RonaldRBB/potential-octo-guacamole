@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from sqlalchemy import DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -19,10 +20,19 @@ class Tag(Base):
         "created_at", DateTime, nullable=False, default=None)
     _updated_at: Mapped[datetime] = mapped_column(
         "updated_at", DateTime, nullable=False, default=None)
-
+    journal_entries: Mapped[List["JournalEntriesTags"]] = relationship(
+        back_populates="tag")
     user = relationship("User", back_populates="tags")
-    entries = relationship(
-        "JournalEntries", secondary="journal_entries_tags", back_populates="tags")
+
+    def serialize(self):
+        """Serialize."""
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "name": self.name,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
 
     @property
     def name(self) -> str:

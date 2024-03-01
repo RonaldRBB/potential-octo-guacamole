@@ -3,6 +3,7 @@ from flask import jsonify, request
 
 from app.models import JournalEntries as JournalEntriesModel
 from config import session
+from app.models import JournalEntriesTags
 
 
 class JournalEntries:
@@ -26,6 +27,13 @@ class JournalEntries:
         session.add(entry)
         session.commit()
         session.refresh(entry)
+        for tag in data["tags"]:
+            journal_entry_tag = JournalEntriesTags(
+                journal_entry_id=entry.id,
+                tag_id=tag
+            )
+            session.add(journal_entry_tag)
+            session.commit()
         return entry.serialize(), 201
 
     def show(self, id):

@@ -27,6 +27,7 @@ class User(Base):
     _updated_at: Mapped[datetime] = mapped_column(
         "updated_at", DateTime, nullable=False, default=None)
     journal_entries = relationship("JournalEntries", back_populates="user")
+    tags = relationship("Tag", back_populates="user")
 
     def serialize(self):
         """Serialize."""

@@ -1,8 +1,9 @@
 """Journal Entries Model."""
 
 from datetime import datetime
+from typing import List
 
-from sqlalchemy import DateTime, String, Text, ForeignKey
+from sqlalchemy import DateTime, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from config import DB_PREFIX, Base
@@ -23,6 +24,8 @@ class JournalEntries(Base):
     _updated_at: Mapped[datetime] = mapped_column(
         "updated_at", DateTime, nullable=False, default=None)
     user = relationship("User", back_populates="journal_entries")
+    tags: Mapped[List["JournalEntriesTags"]] = relationship(
+        back_populates="journal_entry")
 
     def serialize(self):
         """Serialize."""
@@ -33,7 +36,8 @@ class JournalEntries(Base):
             "content": self.content,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "user": self.user.serialize()
+            "user": self.user.serialize(),
+            "tags": [tag.serialize() for tag in self.tags]
         }
 
     @property
