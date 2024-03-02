@@ -29,10 +29,17 @@ class Tag(Base):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "name": self.name,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
         }
+
+    @property
+    def user_id(self) -> int:
+        """Get user_id."""
+        return self._user_id
+
+    @user_id.setter
+    def user_id(self, value: int) -> None:
+        """Set user_id."""
+        self._user_id = value
 
     @property
     def name(self) -> str:

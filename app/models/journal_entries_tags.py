@@ -20,7 +20,4 @@ class JournalEntriesTags(Base):
 
     def serialize(self):
         """Serialize."""
-        return {
-            "journal_entry_id": self.journal_entry_id,
-            "tag_id": self.tag_id
-        }
+        return self.tag.serialize()
